@@ -39,10 +39,19 @@ nav{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50px;
+    height: 70px;
     width: 100%;
     background-color: aquamarine;
     column-gap: 5px;
+    position: relative;
+}
+span{
+    position: absolute;
+    display: none;
+    font-size: 10px;
+    left: 240px;
+    bottom: 1px;
+    color: red;
 }
 input, button{
     padding: .5rem;
@@ -91,5 +100,6 @@ article > div{
     height: 120px;
     justify-content: center;
 }
+
 
 

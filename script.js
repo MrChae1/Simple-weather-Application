@@ -1,4 +1,24 @@
-const defaultLocation = 'bulacan';
+let defaultLocation = 'bulacan';
+let check = false;
+const sectionTag = document.querySelector('.main-section');
+const elements = Array.from(sectionTag.querySelectorAll('*'));
+
+const InputTag = document.querySelector('.input-nav');
+const inputBtn = document.querySelector('.find-btn');
+const inputCheck = document.getElementById('input-check');
+
+inputCheck.addEventListener('change', function(e) {
+    check = e.target.checked;
+    getData().then((res) => {
+        verifyCheck(res);
+    });  
+});
+
+inputBtn.addEventListener('click', () => {
+    const inputValue = InputTag.value;
+    defaultLocation = inputValue;
+    getData();
+});
 
 const getResponse = async (location) => {
     const maxRetries = 3;
@@ -25,22 +45,40 @@ const getResponse = async (location) => {
 
 const getData = async () => {
     const response = await getResponse(defaultLocation);
-    console.log(response)
-    displayAll(response);
+    return response;
 }
 
-function displayAll(response){
-    const sectionTag = document.querySelector('.main-section');
-    const insideSection = Array.from(sectionTag.querySelectorAll('*'));
-    console.log(insideSection);
-    insideSection[1].innerHTML = response.location.name; //h3
-    insideSection[3].src = response.current.condition.icon; //img
-    insideSection[4].innerHTML = response.current.condition.text; //header paragraph
-    insideSection[6].innerHTML = `${response.current.temp_c} °C`; //h2
-    insideSection[9].innerHTML = response.current.humidity; // span-humidity
-    insideSection[11].innerHTML = response.current.wind_kph; // span-wind
-    insideSection[13].innerHTML = response.current.feelslike_c; // span-feelsLike
-    insideSection[15].innerHTML = response.current.vis_km; // span-visibility
+function displayAll() {
+    getData().then((res) => {
+        elements[3].src = res.current.condition.icon; //img
+        elements[1].innerHTML = res.location.name; //h3
+        elements[4].innerHTML = res.current.condition.text; //header paragraph
+        elements[9].innerHTML = `${res.current.humidity}%`; // span-humidity
+        elements[11].innerHTML = `${res.current.wind_kph}km/h`; // span-wind
+        elements[15].innerHTML = `${res.current.vis_km}km`; // span-visibility
+        verifyCheck(res)
+    });
+    
+}
+function verifyCheck(res){
+    if(check === true){
+        displayAllFahren(res, elements[6], elements[13], elements[18]);
+    }
+    else{
+        displayAllcelcius(res, elements[6], elements[13],elements[18]);
+    }
 }
 
-getData();
+function displayAllcelcius(response, temp, feels, cel){
+    cel.textContent = 'CELCIUS';
+    temp.innerHTML = `${response.current.temp_c}°C`; //h2
+    feels.innerHTML = `${response.current.feelslike_c}°C`; // span-feelsLike
+}
+function displayAllFahren(response, temp, feels, farah){
+    farah.textContent = `FAHRENHEIT`;
+    temp.innerHTML = `${response.current.temp_f}°F`; //h2
+    feels.innerHTML = `${response.current.feelslike_f}°F`; // span-feelsLike
+}
+
+displayAll();
+

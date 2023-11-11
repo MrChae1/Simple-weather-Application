@@ -86,11 +86,11 @@ main{
     border-bottom: 5px solid black;
 }
 .main-section > header > h3{
-    font-size: 2rem;
-    width: 60%;
+    font-size: 1.5rem;
+    width: 50%;
 }
 .main-section .Weather-Desc{
-    width: 40%;
+    width: 50%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -98,8 +98,13 @@ main{
     padding-top: .5rem;
     text-align: center;
 }
+.weather-img{
+    width: 100px;
+    height: 60px;
+}
 .main-section > header > .Weather-Desc > p{
     font-size: .7rem;
+    font-weight: bold;
 }
 .main-section > .section-main{
     grid-row: 2/3;
@@ -151,7 +156,59 @@ main{
     grid-area: 2/2/3/3;
     background-color: rgb(0, 0, 0, 0.5);
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    overflow: hidden;
 }
+.main-aside > h4{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 2rem;
+}
+.main-aside > .inside-Aside-Main{
+    width: 100%;
+    /* background-color: #fff; */
+    height: 80%;
+    border-radius: 10px;
+}
+.main-aside .asideMain{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    display: flex;
+    gap: .8rem;
+    /* padding: .5rem; */
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    overflow-x: auto; /* Enable horizontal scrolling */
+}
+.hour-Container{
+    border: 2px solid black;
+    background-color: rgb(0, 0, 0, .5);
+    padding: 2.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+}
+.hour-Container > h4{
+   font-size: 1.5rem;
+}
+.hour-desc{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: .5rem;
+}
+.hour-desc > .img-hour{
+    width: 50px;
+    height: 50px;
+}
+
 .main-footer{
     grid-area: 3/1/4/3;
     background-color: rgb(0, 0, 0, 0.5);

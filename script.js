@@ -2,7 +2,8 @@ let defaultLocation = 'bulacan';
 let check = false;
 const sectionTag = document.querySelector('.main-section');
 const elements = Array.from(sectionTag.querySelectorAll('*'));
-
+// const Twelve = document.querySelector('.Twelve-AM');
+const AllHour = Array.from(document.querySelectorAll('.hour-desc'));
 const InputTag = document.querySelector('.input-nav');
 const inputBtn = document.querySelector('.find-btn');
 const changeClick = document.querySelector('.Unit-Temp'); 
@@ -47,7 +48,13 @@ const getData = async () => {
         return response;
 }
 
-function displayAll() {
+function displayAll(){
+    console.log(AllHour);
+    displaySection();
+    
+}
+
+function displaySection() {
     getData().then((res) => {
         elements[3].src = res.current.condition.icon; //img
         elements[1].innerHTML = res.location.name; //h3
@@ -56,15 +63,39 @@ function displayAll() {
         elements[11].innerHTML = `${res.current.wind_kph}km/h`; // span-wind
         elements[15].innerHTML = `${res.current.vis_km}km`; // span-visibility
         verifyCheck(res)
-    });
-    
+        displayAllAside(res);
+        console.log(res);
+    });    
 }
+function displayAllAside(res){
+    allImages(res);
+    allPdesc(res);
+}
+
+function allImages(res){
+    for(let i = 0; i < AllHour.length; i++){
+        AllHour[i].children[0].src = `${res.forecast.forecastday[0].hour[i].condition.icon}`;
+        AllHour[i].children[1].innerHTML = `${res.forecast.forecastday[0].hour[i].condition.text}`;
+    }
+}
+
+function allPTempCel(res){
+    for(let i = 0; i < AllHour.length; i++){
+        AllHour[i].children[2].innerHTML = `${res.forecast.forecastday[0].hour[i].temp_c} °C`
+    }
+}
+function allPTempFah(res){
+
+}
+
 function verifyCheck(res){
     if(check === true){
         displayAllFahren(res, elements[6], elements[13]);
+        allPTempFah(res);
     }
     else{
         displayAllcelcius(res, elements[6], elements[13]);
+        allPTempCel(res);
     }
 }
 

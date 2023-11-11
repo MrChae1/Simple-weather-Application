@@ -48,13 +48,7 @@ const getData = async () => {
         return response;
 }
 
-function displayAll(){
-    console.log(AllHour);
-    displaySection();
-    
-}
-
-function displaySection() {
+function displayAll() {
     getData().then((res) => {
         elements[3].src = res.current.condition.icon; //img
         elements[1].innerHTML = res.location.name; //h3
@@ -63,13 +57,9 @@ function displaySection() {
         elements[11].innerHTML = `${res.current.wind_kph}km/h`; // span-wind
         elements[15].innerHTML = `${res.current.vis_km}km`; // span-visibility
         verifyCheck(res)
-        displayAllAside(res);
+        allImages(res);
         console.log(res);
     });    
-}
-function displayAllAside(res){
-    allImages(res);
-    allPdesc(res);
 }
 
 function allImages(res){
@@ -81,11 +71,13 @@ function allImages(res){
 
 function allPTempCel(res){
     for(let i = 0; i < AllHour.length; i++){
-        AllHour[i].children[2].innerHTML = `${res.forecast.forecastday[0].hour[i].temp_c} °C`
+        AllHour[i].children[2].innerHTML = `${res.forecast.forecastday[0].hour[i].temp_c}°C`
     }
 }
 function allPTempFah(res){
-
+    for(let i = 0; i < AllHour.length; i++){
+        AllHour[i].children[2].innerHTML = `${res.forecast.forecastday[0].hour[i].temp_c}°F`
+    }
 }
 
 function verifyCheck(res){

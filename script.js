@@ -5,10 +5,9 @@ const elements = Array.from(sectionTag.querySelectorAll('*'));
 
 const InputTag = document.querySelector('.input-nav');
 const inputBtn = document.querySelector('.find-btn');
-const inputCheck = document.getElementById('input-check');
-
-inputCheck.addEventListener('change', function(e) {
-    check = e.target.checked;
+const changeClick = document.querySelector('.Unit-Temp'); 
+changeClick.addEventListener('click', () => {
+    check = check === false ? true : false;
     getData().then((res) => {
         verifyCheck(res);
     });  
@@ -17,7 +16,7 @@ inputCheck.addEventListener('change', function(e) {
 inputBtn.addEventListener('click', () => {
     const inputValue = InputTag.value;
     defaultLocation = inputValue;
-    getData();
+    displayAll();
 });
 
 const getResponse = async (location) => {
@@ -45,7 +44,7 @@ const getResponse = async (location) => {
 
 const getData = async () => {
     const response = await getResponse(defaultLocation);
-    return response;
+        return response;
 }
 
 function displayAll() {
@@ -62,20 +61,18 @@ function displayAll() {
 }
 function verifyCheck(res){
     if(check === true){
-        displayAllFahren(res, elements[6], elements[13], elements[18]);
+        displayAllFahren(res, elements[6], elements[13]);
     }
     else{
-        displayAllcelcius(res, elements[6], elements[13],elements[18]);
+        displayAllcelcius(res, elements[6], elements[13]);
     }
 }
 
-function displayAllcelcius(response, temp, feels, cel){
-    cel.textContent = 'CELCIUS';
+function displayAllcelcius(response, temp, feels){
     temp.innerHTML = `${response.current.temp_c}°C`; //h2
     feels.innerHTML = `${response.current.feelslike_c}°C`; // span-feelsLike
 }
-function displayAllFahren(response, temp, feels, farah){
-    farah.textContent = `FAHRENHEIT`;
+function displayAllFahren(response, temp, feels){
     temp.innerHTML = `${response.current.temp_f}°F`; //h2
     feels.innerHTML = `${response.current.feelslike_f}°F`; // span-feelsLike
 }

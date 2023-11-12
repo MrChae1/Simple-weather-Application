@@ -1,8 +1,11 @@
 let defaultLocation = 'bulacan';
 let check = false;
-const sectionTag = document.querySelector('.main-section');
+let isLoading = true;
+const mainTag = document.querySelector('.document-main');
+const sectionTag = mainTag.querySelector('.main-section');
+const modalTag = mainTag.querySelector('.mainModal');
 const elements = Array.from(sectionTag.querySelectorAll('*'));
-// const Twelve = document.querySelector('.Twelve-AM');
+const asideTag = mainTag.querySelector('.main-aside');
 const AllHour = Array.from(document.querySelectorAll('.hour-desc'));
 const InputTag = document.querySelector('.input-nav');
 const inputBtn = document.querySelector('.find-btn');
@@ -23,13 +26,12 @@ inputBtn.addEventListener('click', () => {
 const getResponse = async (location) => {
     const maxRetries = 3;
     let currentRetry = 0;
-    let isLoading = true;
-
     while (currentRetry < maxRetries) {
         try {
             const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=a733914831544ebe96e154016230311&q=${location}&days=3&aqi=no&alerts=no`);
             const convert = await response.json();
             isLoading = false; // Set loading to false on successful fetch
+            loadingResponse();
             return convert;
         } catch (error) {
             console.error("Error in getResponse:", error);
@@ -40,15 +42,16 @@ const getResponse = async (location) => {
     // If all retries fail, you might want to handle it here
     console.error("Max retries reached. Unable to fetch data.");
     isLoading = false; // Set loading to false if max retries are reached without success
-    return null; // or throw an error, or return a default value
+    return notFetch(); // or throw an error, or return a default value
 };
 
 const getData = async () => {
     const response = await getResponse(defaultLocation);
-        return response;
+    return response;
 }
 
 function displayAll() {
+    loadingResponse();
     getData().then((res) => {
         elements[3].src = res.current.condition.icon; //img
         elements[1].innerHTML = res.location.name; //h3
@@ -91,6 +94,16 @@ function verifyCheck(res){
     }
 }
 
+function loadingResponse(){
+    if(isLoading === true){
+        displayHidden();
+    }
+    else{
+        displayMain();
+        isLoading = true;
+    }
+}
+
 function displayAllcelcius(response, temp, feels){
     temp.innerHTML = `${response.current.temp_c}°C`; //h2
     feels.innerHTML = `${response.current.feelslike_c}°C`; // span-feelsLike
@@ -98,6 +111,24 @@ function displayAllcelcius(response, temp, feels){
 function displayAllFahren(response, temp, feels){
     temp.innerHTML = `${response.current.temp_f}°F`; //h2
     feels.innerHTML = `${response.current.feelslike_f}°F`; // span-feelsLike
+}
+
+function displayHidden(){
+    asideTag.style.visibility = 'hidden';
+    sectionTag.style.visibility = 'hidden';
+    modalTag.style.visibility = 'visible';
+
+}
+
+function displayMain(){
+    asideTag.style.visibility = 'visible';
+    sectionTag.style.visibility = 'visible';
+    modalTag.style.visibility = 'hidden';
+}
+
+function notFetch(){
+    const modalParah = modalTag.querySelector('p');
+    modalParah.innerHTML = `Sorry!!! Something Not Rigth Check Your Input or Reload The Page Thank You.`;
 }
 
 displayAll();

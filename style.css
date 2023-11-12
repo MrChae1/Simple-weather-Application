@@ -18,6 +18,7 @@ main{
     gap: 10px;
     display: grid;
     grid-template: .5fr 5fr .5fr / 1fr 3fr;
+    position: relative;
 }
 .main-header{
     grid-area: 1/1/2/3;
@@ -224,4 +225,22 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.mainModal{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mainModal > .inside-modal{
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    padding: 2rem;
+}
+.mainModal > .inside-modal > p{
+    font-size: 2rem;
 }
